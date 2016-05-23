@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+        >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+                android:id="@+id/main_layout"
+>
+
+        <TextView android:layout_width="20dp"
+                  android:layout_height="wrap_content"
+                  android:lineSpacingExtra="18sp"
+                  android:gravity="right"
+                  android:id="@+id/hours_label"
+                  android:text="6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23"
+        />
+
+
+
+</RelativeLayout>
+</ScrollView>
