@@ -1,7 +1,10 @@
 package cl.uchile.boulder.pine;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,10 +54,27 @@ public class MyActivity extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (featureId){
             case R.id.menu_add:
-                ;
+                createAddEventDialog();
                 break;
         }
         return true;
+    }
+
+    private void createAddEventDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Nuevo Evento fijo");
+        builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("Dialog","Crear nuevo evento fijo");
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ;
+            }
+        });
     }
 
 }
