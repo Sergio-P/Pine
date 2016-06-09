@@ -8,6 +8,7 @@ public class EventosDB extends SQLiteOpenHelper {
 
     private final String createTableFixEvent = "create table fix_events("
             + "id integer primary key autoincrement,"
+            + "nom text not null,"
             + "descr text not null,"
             + "day integer not null,"
             + "minstart integer not null,"
@@ -16,6 +17,7 @@ public class EventosDB extends SQLiteOpenHelper {
 
     private final String createTableDynEvent = "create table dyn_event("
             + "id integer primary key autoincrement,"
+            + "nom text not null,"
             + "descr text not null,"
             + "day integer not null,"
             + "minstart integer not null,"

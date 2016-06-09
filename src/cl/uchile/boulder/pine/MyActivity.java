@@ -1,10 +1,10 @@
 package cl.uchile.boulder.pine;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,14 +34,29 @@ public class MyActivity extends Activity {
                 }
             }
         });
-       eventosDB = new EventosDB(this,"DBPine",null,1);
+       eventosDB = new EventosDB(this,"DBPine",null,2);
     }
 
     private void buildEventBlocks() {
-        EventBlock block = new EventBlock(this,"TEST",6,60*15,90);
-        blockLayout.addView(block.getBlockView());
-        EventBlock block2 = new EventBlock(this,"TEST2",7,60*14,90);
-        blockLayout.addView(block2.getBlockView());
+        blockLayout.removeAllViews();
+
+        SQLiteDatabase db = eventosDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select nom, descr, day, minstart, duration from fix_events",null);
+
+        if(cursor.moveToFirst()){
+            do{
+                String nom = cursor.getString(0);
+                String desc = cursor.getString(1);
+                int day = cursor.getInt(2);
+                int minstart = cursor.getInt(3);
+                int dur = cursor.getInt(4);
+                EventBlock block = new EventBlock(this,nom,day,minstart,dur);
+                blockLayout.addView(block.getBlockView());
+            }
+            while(cursor.moveToNext());
+        }
+
+        cursor.close();
     }
 
     @Override
@@ -52,29 +67,17 @@ public class MyActivity extends Activity {
 
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch (featureId){
+        switch (item.getItemId()){
             case R.id.menu_add:
-                createAddEventDialog();
+                gotoAddEventActivity();
                 break;
         }
         return true;
     }
 
-    private void createAddEventDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Nuevo Evento fijo");
-        builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d("Dialog","Crear nuevo evento fijo");
-            }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ;
-            }
-        });
+    private void gotoAddEventActivity() {
+        Intent i = new Intent(getBaseContext(),FixEventActivity.class);
+        startActivity(i);
     }
 
 }
