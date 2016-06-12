@@ -3,21 +3,21 @@
 
     <item android:id="@+id/menu_prev_week"
           android:showAsAction="always"
-          android:icon="@android:drawable/ic_media_previous"
+          android:icon="@drawable/ic_left"
           android:orderInCategory="1"
           android:title="Semana anterior"
     />
 
     <item android:id="@+id/menu_next_week"
           android:showAsAction="always"
-          android:icon="@android:drawable/ic_media_next"
+          android:icon="@drawable/ic_right"
           android:orderInCategory="2"
           android:title="Semana siguiente"
     />
 
     <item android:id="@+id/menu_list"
           android:showAsAction="always"
-          android:icon="@android:drawable/ic_menu_sort_by_size"
+          android:icon="@drawable/ic_bars"
           android:orderInCategory="3"
           android:title="Lista de Eventos"
     />
@@ -27,6 +27,18 @@
           android:icon="@android:drawable/ic_input_add"
           android:orderInCategory="4"
           android:title="Nuevo Evento"
-    />
+    >
+        <menu>
+            <item android:id="@+id/menu_add_fix"
+                    android:title="Evento Fijo"
+            />
+            <item android:id="@+id/menu_add_unique"
+                  android:title="Evento Único"
+            />
+            <item android:id="@+id/menu_add_dyn"
+                  android:title="Evento Dinámico"
+            />
+        </menu>
+    </item>
 
 </menu>
