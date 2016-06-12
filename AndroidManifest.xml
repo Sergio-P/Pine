@@ -15,5 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FixEventActivity"/>
+        <activity android:name=".UniqueEventActivity"/>
+        <activity android:name=".DynEventActivity"/>
     </application>
 </manifest>

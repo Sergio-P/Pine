@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+>
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre:"
+            android:textSize="20sp"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+    />
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ev_nombre" android:layout_below="@+id/textView" android:layout_alignLeft="@+id/textView"
+            android:layout_alignParentRight="true"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Fecha - Plazo:"
+              android:textSize="20sp" android:id="@+id/textView2"
+              android:layout_below="@+id/ev_nombre"
+              android:layout_marginTop="16dp"
+              android:layout_alignLeft="@+id/ev_nombre"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ev_fecha"
+            android:text="Elegir Fecha"
+            android:layout_below="@+id/textView2"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignParentRight="true"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horas estimadas:"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:id="@+id/textView4"
+            android:layout_below="@+id/ev_fecha"
+            android:layout_alignLeft="@+id/ev_fecha"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:width="100dp"
+            android:id="@+id/ev_horas_trbj"
+            android:layout_alignTop="@+id/textView4"
+            android:layout_toRightOf="@+id/textView4"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Descripción:"
+              android:layout_marginTop="20dp"
+              android:textSize="20sp" android:id="@+id/textView6"
+              android:layout_below="@+id/ev_horas_trbj" android:layout_alignLeft="@+id/textView4"/>
+    <EditText android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/ev_desc"
+              android:lines="3"
+              android:layout_below="@+id/textView6"
+              android:layout_alignLeft="@+id/textView4"
+              android:layout_alignParentRight="true"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agregar"
+            android:id="@+id/ev_agregar_btn"
+            android:width="240dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

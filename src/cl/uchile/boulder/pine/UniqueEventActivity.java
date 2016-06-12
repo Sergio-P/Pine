@@ -1,6 +1,7 @@
 package cl.uchile.boulder.pine;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,22 +10,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
-public class FixEventActivity extends Activity{
+import java.util.Calendar;
+
+public class UniqueEventActivity extends Activity{
 
     private int minsIni = 14*60 + 30;
     private int minsFin = 16*60;
     private Context context;
-    private String[] nombreDias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-    private Spinner dias;
     private EditText nombre,descr;
     private EventosDB eventosDB;
+    private int year,week,dow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fix_event_activity);
+        setContentView(R.layout.unique_event_activity);
         getActionBar().setHomeButtonEnabled(true);
-        setTitle("Nuevo Evento Fijo");
+        setTitle("Nuevo Evento Único");
         context = this;
 
         eventosDB = new EventosDB(this,"DBPine",null,2);
@@ -63,8 +65,26 @@ public class FixEventActivity extends Activity{
             }
         });
 
-        dias = (Spinner) findViewById(R.id.ev_dias);
-        dias.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,nombreDias));
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        final Button fecha = (Button) findViewById(R.id.ev_fecha);
+        fecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dialog;
+                dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int yearC, int monthOfYear, int dayOfMonth) {
+                        year = yearC;
+                        fecha.setText(""+dayOfMonth+" - "+monthOfYear+" - "+year);
+                    }
+                },year,month,day);
+                dialog.show();
+            }
+        });
 
         nombre = (EditText) findViewById(R.id.ev_nombre);
         descr = (EditText) findViewById(R.id.ev_desc);
@@ -80,8 +100,8 @@ public class FixEventActivity extends Activity{
 
     private void addItem(){
         SQLiteDatabase db = eventosDB.getWritableDatabase();
-        Object[] args = {nombre.getText().toString(), descr.getText().toString(), dias.getSelectedItemPosition(), minsIni, minsFin-minsIni};
-        db.execSQL("insert into fix_events(nom,descr,day,minstart,duration) values(?,?,?,?,?)",args);
+        Object[] args = {nombre.getText().toString(), descr.getText().toString(), year*1000+week*10+dow, minsIni, minsFin-minsIni};
+        db.execSQL("insert into unique_events(nom,descr,fecha,minstart,duration) values(?,?,?,?,?)",args);
         finish();
     }
 

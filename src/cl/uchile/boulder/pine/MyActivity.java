@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MyActivity extends Activity {
 
@@ -18,6 +19,8 @@ public class MyActivity extends Activity {
     private boolean built;
     private EventosDB eventosDB;
     private ArrayList<View> blocks;
+    private int fechini, fechfin;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,10 @@ public class MyActivity extends Activity {
                 }
             }
         });
-       eventosDB = new EventosDB(this,"DBPine",null,2);
+        eventosDB = new EventosDB(this,"DBPine",null,2);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+
     }
 
     @Override
@@ -86,6 +92,11 @@ public class MyActivity extends Activity {
             case R.id.menu_add_fix:
                 gotoAddFixEventActivity();
                 break;
+            case R.id.menu_add_unique:
+                startActivity(new Intent(getBaseContext(),UniqueEventActivity.class));
+                break;
+            case R.id.menu_add_dyn:
+                startActivity(new Intent(getBaseContext(),DynEventActivity.class));
         }
         return true;
     }
