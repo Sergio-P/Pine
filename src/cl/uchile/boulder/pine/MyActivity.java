@@ -53,7 +53,7 @@ public class MyActivity extends Activity {
             blockLayout.removeView(v);
 
         SQLiteDatabase db = eventosDB.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select nom, descr, day, minstart, duration from fix_events",null);
+        Cursor cursor = db.rawQuery("select nom, descr, day, minstart, duration, id from fix_events",null);
 
         if(cursor.moveToFirst()){
             do{
@@ -62,7 +62,8 @@ public class MyActivity extends Activity {
                 int day = cursor.getInt(2);
                 int minstart = cursor.getInt(3);
                 int dur = cursor.getInt(4);
-                EventBlock block = new EventBlock(this,nom,day,minstart,dur);
+                int id = cursor.getInt(5);
+                EventBlock block = new EventBlock(this,nom,day,minstart,dur,desc,id,this);
                 View v = block.createBlockView();
                 blockLayout.addView(v);
                 blocks.add(v);
@@ -94,4 +95,10 @@ public class MyActivity extends Activity {
         startActivity(i);
     }
 
+    public void deleteFixed(int id) {
+        SQLiteDatabase db = eventosDB.getWritableDatabase();
+        Object[] args = {id};
+        db.execSQL("delete from fix_events where id = ?", args);
+        buildEventBlocks();
+    }
 }

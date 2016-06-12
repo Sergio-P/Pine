@@ -38,7 +38,7 @@ public class FixEventActivity extends Activity{
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         minsIni = 60*hourOfDay + minute;
-                        horaInicio.setText(hourOfDay+":"+minute);
+                        horaInicio.setText(hourOfDay+":"+((minute<10)?"0":"")+minute);
                     }
                 },minsIni/60,minsIni%60,true);
                 dialog.setTitle("Hora inicio");
@@ -55,7 +55,7 @@ public class FixEventActivity extends Activity{
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         minsFin = 60*hourOfDay + minute;
-                        horaFin.setText(hourOfDay+":"+minute);
+                        horaFin.setText(hourOfDay+":"+((minute<10)?"0":"")+minute);
                     }
                 },minsFin/60,minsFin%60,true);
                 dialog.setTitle("Hora fin");

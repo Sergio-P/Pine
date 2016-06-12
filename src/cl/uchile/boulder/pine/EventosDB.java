@@ -15,11 +15,11 @@ public class EventosDB extends SQLiteOpenHelper {
             + "duration integer not null"
             + ")";
 
-    private final String createTableDynEvent = "create table dyn_event("
+    private final String createTableUniqueEvent = "create table unique_event("
             + "id integer primary key autoincrement,"
             + "nom text not null,"
             + "descr text not null,"
-            + "day integer not null,"
+            + "fecha integer not null,"
             + "minstart integer not null,"
             + "duration integer not null"
             + ")";
@@ -31,11 +31,17 @@ public class EventosDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createTableFixEvent);
+        db.execSQL(createTableUniqueEvent);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists fix_events");
-        db.execSQL(createTableFixEvent);
+        if(oldVersion<2) {
+            db.execSQL("drop table if exists fix_events");
+            db.execSQL(createTableFixEvent);
+        }
+        db.execSQL("drop table if exists unique_event");
+        db.execSQL(createTableUniqueEvent);
+
     }
 }
