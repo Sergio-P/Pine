@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 
@@ -29,7 +32,7 @@ public class UniqueEventActivity extends Activity{
         setTitle("Nuevo Evento Único");
         context = this;
 
-        eventosDB = new EventosDB(this,"DBPine",null,2);
+        eventosDB = new EventosDB(this,"DBPine",null,3);
 
         final Button horaInicio = (Button) findViewById(R.id.ev_hora_ini);
         horaInicio.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +82,14 @@ public class UniqueEventActivity extends Activity{
                     @Override
                     public void onDateSet(DatePicker view, int yearC, int monthOfYear, int dayOfMonth) {
                         year = yearC;
-                        fecha.setText(""+dayOfMonth+" - "+monthOfYear+" - "+year);
+                        Calendar c = Calendar.getInstance();
+                        c.set(yearC,monthOfYear,dayOfMonth);
+                        c.setFirstDayOfWeek(Calendar.MONDAY);
+                        c.get(Calendar.DAY_OF_MONTH);
+                        dow = c.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
+                        if(dow<0) dow=6;
+                        week = c.get(Calendar.WEEK_OF_YEAR);
+                        fecha.setText(""+dayOfMonth+" - "+(monthOfYear+1)+" - "+year);
                     }
                 },year,month,day);
                 dialog.show();
@@ -101,7 +111,7 @@ public class UniqueEventActivity extends Activity{
     private void addItem(){
         SQLiteDatabase db = eventosDB.getWritableDatabase();
         Object[] args = {nombre.getText().toString(), descr.getText().toString(), year*1000+week*10+dow, minsIni, minsFin-minsIni};
-        db.execSQL("insert into unique_events(nom,descr,fecha,minstart,duration) values(?,?,?,?,?)",args);
+        db.execSQL("insert into unique_event(nom,descr,fecha,minstart,duration) values(?,?,?,?,?)",args);
         finish();
     }
 

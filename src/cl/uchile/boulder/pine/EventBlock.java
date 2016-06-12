@@ -16,8 +16,9 @@ public class EventBlock {
     private Context context;
     private int day;
     private int minStart, duration;
-    private int id;
-    private MyActivity master;
+    protected int id;
+    protected MyActivity master;
+    protected int bgcol;
 
     public EventBlock(Context ctx, String text, int d, int ms, int dur, String descr, int i, MyActivity mast){
         context = ctx;
@@ -28,6 +29,7 @@ public class EventBlock {
         description = descr;
         id = i;
         master = mast;
+        bgcol = 0xff00cc00;
     }
 
     public View createBlockView(){
@@ -37,7 +39,7 @@ public class EventBlock {
         v.setX(DefaultDimensions.MARGIN_NUMBERS + (DefaultDimensions.BLOCK_WIDTH+2)*(day));
         v.setY(DefaultDimensions.BLOCK_HEIGHT_FACTOR*(minStart-60*6));
         v.setHeight((int) (DefaultDimensions.BLOCK_HEIGHT_FACTOR*duration));
-        v.setBackgroundColor(0xff00cc00);
+        v.setBackgroundColor(bgcol);
         v.setTextColor(0xff000000);
         v.setGravity(Gravity.CENTER);
 
@@ -57,7 +59,7 @@ public class EventBlock {
         dialog.setContentView(R.layout.dialog_event);
         TextView title = (TextView) dialog.findViewById(R.id.dialog_title);
         title.setText(name);
-        title.setBackgroundColor(0xff00cc00);
+        title.setBackgroundColor(bgcol);
         ((TextView) dialog.findViewById(R.id.dialog_descr)).setText(description);
         int minEnd = minStart + duration;
         String prettyTime = ""+(minStart/60)+":"+((minStart%60<10)?"0":"")+(minStart%60)+" - "+(minEnd/60)+":"+((minEnd%60<10)?"0":"")+(minEnd%60);
@@ -67,13 +69,16 @@ public class EventBlock {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                master.deleteFixed(id);
-                dialog.dismiss();
+                onDialogDelete(dialog);
             }
         });
 
         dialog.show();
     }
 
+    protected void onDialogDelete(Dialog dialog){
+        master.deleteFixed(id);
+        dialog.dismiss();
+    }
 
 }

@@ -3,7 +3,6 @@ package cl.uchile.boulder.pine;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +29,7 @@ public class DynEventActivity extends Activity{
         setTitle("Nuevo Evento Dinámico");
         context = this;
 
-        eventosDB = new EventosDB(this,"DBPine",null,2);
+        eventosDB = new EventosDB(this,"DBPine",null,3);
 
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -67,9 +66,6 @@ public class DynEventActivity extends Activity{
     }
 
     private void addItem(){
-        SQLiteDatabase db = eventosDB.getWritableDatabase();
-        Object[] args = {nombre.getText().toString(), descr.getText().toString(), year*1000+week*10+dow, minsIni, minsFin-minsIni};
-        db.execSQL("insert into unique_events(nom,descr,fecha,minstart,duration) values(?,?,?,?,?)",args);
         finish();
     }
 
