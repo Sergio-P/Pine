@@ -21,7 +21,8 @@ public class EventosDB extends SQLiteOpenHelper {
             + "descr text not null,"
             + "fecha integer not null,"
             + "minstart integer not null,"
-            + "duration integer not null"
+            + "duration integer not null,"
+            + "autogen integer default 0"
             + ")";
 
     public EventosDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

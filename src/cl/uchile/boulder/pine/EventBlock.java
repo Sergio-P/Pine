@@ -29,7 +29,7 @@ public class EventBlock {
         description = descr;
         id = i;
         master = mast;
-        bgcol = 0xff00cc00;
+        bgcol = 0xffd4b843;
     }
 
     public View createBlockView(){

@@ -83,7 +83,7 @@ public class MyActivity extends Activity {
         cursor.close();
 
         // Unique Events
-        cursor = db.rawQuery("select nom, descr, fecha, minstart, duration, id from unique_event",null);
+        cursor = db.rawQuery("select nom, descr, fecha, minstart, duration, autogen, id from unique_event",null);
         if(cursor.moveToFirst()){
             do{
                 String nom = cursor.getString(0);
@@ -91,11 +91,12 @@ public class MyActivity extends Activity {
                 int fecha = cursor.getInt(2);
                 int minstart = cursor.getInt(3);
                 int dur = cursor.getInt(4);
-                int id = cursor.getInt(5);
+                boolean agen = cursor.getInt(5) == 1;
+                int id = cursor.getInt(6);
                 Log.d("PINE",""+fecha);
                 if(fecha/1000 == curYear && (fecha%1000)/10 == curWeek) {
                     int day = fecha%10;
-                    UEventBlock block = new UEventBlock(this, nom, day, minstart, dur, desc, id, this);
+                    UEventBlock block = new UEventBlock(this, nom, day, minstart, dur, desc, agen, id, this);
                     View v = block.createBlockView();
                     blockLayout.addView(v);
                     blocks.add(v);

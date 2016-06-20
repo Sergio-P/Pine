@@ -66,6 +66,7 @@ public class DynEventActivity extends Activity{
     }
 
     private void addItem(){
+
         finish();
     }
 

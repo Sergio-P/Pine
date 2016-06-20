@@ -6,14 +6,21 @@ import android.content.Context;
 
 public class UEventBlock extends EventBlock {
 
-    public UEventBlock(Context ctx, String text, int d, int ms, int dur, String descr, int i, MyActivity mast) {
+    private boolean autoGen;
+
+    public UEventBlock(Context ctx, String text, int d, int ms, int dur, String descr, boolean autoGen, int i, MyActivity mast) {
         super(ctx, text, d, ms, dur, descr, i, mast);
-        bgcol = 0xff0087f3;
+        this.autoGen = autoGen;
+        if(!autoGen)
+            bgcol = 0xff2398f4;
+        else
+            bgcol = 0xff12cd23;
     }
 
     @Override
     protected void onDialogDelete(Dialog dialog) {
-        master.deleteUnique(id);
+        if(!autoGen)
+            master.deleteUnique(id);
         dialog.dismiss();
     }
 }
