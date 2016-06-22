@@ -42,7 +42,7 @@ public class MyActivity extends Activity {
                 }
             }
         });
-        eventosDB = new EventosDB(this,"DBPine",null,3);
+        eventosDB = new EventosDB(this,"DBPine",null,4);
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         curYear = calendar.get(Calendar.YEAR);

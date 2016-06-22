@@ -1,6 +1,8 @@
 package cl.uchile.boulder.pine;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -10,14 +12,17 @@ public class Planner {
     private ArrayList<TimeBlock> timeBlocks;
     private ArrayList<TimeBlock> promises;
     private String evName;
+    private Context context;
 
     private int actualDay;
     private String evDescr;
 
-    private Planner(int y, int w){
+    public Planner(Context ctx, int y, int w, int dw){
         timeBlocks = new ArrayList<TimeBlock>();
         year = y;
         week = w;
+        actualDay = dw;
+        context = ctx;
     }
 
     public void addBlock(int mi, int mf, int dw){
@@ -41,12 +46,13 @@ public class Planner {
 
     private void commitPromise(SQLiteDatabase db) {
         for(TimeBlock tb : promises){
-            Object[] args = {evName, evDescr, year*1000+week*10+tb.dow, tb.minIni, tb.minFin-tb.minIni};
-            db.execSQL("insert into unique_event(nom,descr,fecha,minstart,duration) values(?,?,?,?,?)",args);
+            Object[] args = {evName, evDescr, year*1000+week*10+tb.dow, tb.minIni, tb.minFin-tb.minIni,1};
+            db.execSQL("insert into unique_event(nom,descr,fecha,minstart,duration,autogen) values(?,?,?,?,?,?)",args);
         }
     }
 
     private void cancelPromise() {
+        Toast.makeText(context,"Promise canceled",Toast.LENGTH_LONG).show();
         promises = null;
     }
 
@@ -72,6 +78,7 @@ public class Planner {
                 hact++;
             }
             if(!completed) return false;
+            dur -= hpp;
         }
         return true;
     }
@@ -88,6 +95,7 @@ public class Planner {
                 hact++;
             }
             if(!completed) return false;
+            dur-=1;
         }
         return true;
     }
@@ -104,8 +112,4 @@ public class Planner {
         return true;
     }
 
-
-    public void setActualDay(int actualDay) {
-        this.actualDay = actualDay;
-    }
 }

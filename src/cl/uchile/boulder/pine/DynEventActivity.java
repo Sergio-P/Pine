@@ -29,7 +29,7 @@ public class DynEventActivity extends Activity{
         setTitle("Nuevo Evento Dinámico");
         context = this;
 
-        eventosDB = new EventosDB(this,"DBPine",null,3);
+        eventosDB = new EventosDB(this,"DBPine",null,4);
 
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -45,6 +45,13 @@ public class DynEventActivity extends Activity{
                     @Override
                     public void onDateSet(DatePicker view, int yearC, int monthOfYear, int dayOfMonth) {
                         year = yearC;
+                        Calendar c = Calendar.getInstance();
+                        c.set(yearC,monthOfYear,dayOfMonth);
+                        c.setFirstDayOfWeek(Calendar.MONDAY);
+                        c.get(Calendar.DAY_OF_MONTH);
+                        dow = c.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
+                        if(dow<0) dow=6;
+                        week = c.get(Calendar.WEEK_OF_YEAR);
                         fecha.setText(""+dayOfMonth+" - "+monthOfYear+" - "+year);
                     }
                 },year,month,day);
@@ -66,7 +73,8 @@ public class DynEventActivity extends Activity{
     }
 
     private void addItem(){
-
+        MasterPlanner masterPlanner = new MasterPlanner(this,eventosDB.getWritableDatabase());
+        masterPlanner.findPlan(nombre.getText().toString(),descr.getText().toString(),Float.parseFloat(trbj.getText().toString()),week,year,dow);
         finish();
     }
 

@@ -27,7 +27,7 @@ public class FixEventActivity extends Activity{
         setTitle("Nuevo Evento Fijo");
         context = this;
 
-        eventosDB = new EventosDB(this,"DBPine",null,3);
+        eventosDB = new EventosDB(this,"DBPine",null,4);
 
         final Button horaInicio = (Button) findViewById(R.id.ev_hora_ini);
         horaInicio.setOnClickListener(new View.OnClickListener() {
