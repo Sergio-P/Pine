@@ -3,6 +3,7 @@ package cl.uchile.boulder.pine;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -16,22 +17,24 @@ public class MasterPlanner {
         db = sdb;
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        curDow = calendar.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
         curYear = calendar.get(Calendar.YEAR);
-        curDow = calendar.get(Calendar.DAY_OF_WEEK);
         curWeek = calendar.get(Calendar.WEEK_OF_YEAR);
         context = ctx;
     };
 
     public void findPlan(String name, String descr, float dur, int wk, int yr, int dwTo){
         if(wk==curWeek){
+            Log.d("PINE","Plan for single week");
             Planner planner = new Planner(context,curYear,curWeek,curDow);
             fillPlanner(planner,curWeek,curYear);
             planner.planEvent(name,descr,dur,dwTo,db);
         }
         else{
             float wdur = dur/(wk-curWeek+1);
+            Log.d("PINE","Plan for multi week using wdur="+wdur);
             for(int w = curWeek; w<=wk; w++){
-                Planner planner = new Planner(context,curYear,w,(w==curWeek)?curDow:1);
+                Planner planner = new Planner(context,curYear,w,(w==curWeek)?curDow:0);
                 fillPlanner(planner,w,curYear);
                 planner.planEvent(name,descr,wdur,(w==wk)?dwTo:6,db);
             }

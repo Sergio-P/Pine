@@ -2,6 +2,7 @@ package cl.uchile.boulder.pine;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class Planner {
     }
 
     private void cancelPromise() {
+        Log.d("PINE","Promise Canceled");
         Toast.makeText(context,"Promise canceled",Toast.LENGTH_LONG).show();
         promises = null;
     }
@@ -66,9 +68,10 @@ public class Planner {
     }
 
     private boolean scheduleByEqual(float dur, int dwTo) {
-        float hpp = (float) (Math.floor(4f*(actualDay -dwTo)/dur+0.5f)/4f);
+        float hpp = (float) (Math.floor(4f*dur/(dwTo-actualDay)+0.5f)/4f);
+        boolean completed = false;
         for(int d = actualDay; d<=dwTo && dur>0; d++){
-            boolean completed = false;
+            completed = false;
             int hact = 15;
             while(!completed && hact<23.75-hpp){
                 if(isFreeRange(d,60*hact, (int) (60*(hact+hpp)))) {
@@ -77,10 +80,12 @@ public class Planner {
                 }
                 hact++;
             }
-            if(!completed) return false;
+            if(!completed && dwTo != d){
+                hpp += hpp/(dwTo-d);
+            }
             dur -= hpp;
         }
-        return true;
+        return completed;
     }
 
     private boolean scheduleByHour(float dur, int dwTo) {
