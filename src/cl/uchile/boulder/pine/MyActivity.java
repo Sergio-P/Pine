@@ -1,6 +1,7 @@
 package cl.uchile.boulder.pine;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -21,12 +23,14 @@ public class MyActivity extends Activity {
     private EventosDB eventosDB;
     private ArrayList<View> blocks;
     private int curYear, curWeek;
-
+    private String[] dayNames = {"Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"};
+    private ArrayList<UEventBlock> uEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
         blockLayout = (RelativeLayout) findViewById(R.id.main_layout);
         blocks = new ArrayList<>();
         built = false;
@@ -84,6 +88,7 @@ public class MyActivity extends Activity {
 
         // Unique Events
         cursor = db.rawQuery("select nom, descr, fecha, minstart, duration, autogen, id from unique_event",null);
+        uEvents = new ArrayList<UEventBlock>();
         if(cursor.moveToFirst()){
             do{
                 String nom = cursor.getString(0);
@@ -93,20 +98,33 @@ public class MyActivity extends Activity {
                 int dur = cursor.getInt(4);
                 boolean agen = cursor.getInt(5) == 1;
                 int id = cursor.getInt(6);
-                Log.d("PINE",""+fecha);
+                int day = fecha%10;
+                UEventBlock block = new UEventBlock(this, nom, day, minstart, dur, desc, agen, (fecha%1000)/10, id, this);
                 if(fecha/1000 == curYear && (fecha%1000)/10 == curWeek) {
-                    int day = fecha%10;
-                    UEventBlock block = new UEventBlock(this, nom, day, minstart, dur, desc, agen, id, this);
                     View v = block.createBlockView();
                     blockLayout.addView(v);
                     blocks.add(v);
                 }
+                uEvents.add(block);
             }
             while(cursor.moveToNext());
         }
         cursor.close();
 
+        buildCurrentTimeBlock();
+    }
 
+    private void buildCurrentTimeBlock() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        int dow = calendar.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
+        if(dow<0) dow=6;
+        int mins = calendar.get(Calendar.HOUR_OF_DAY)*60+calendar.get(Calendar.MINUTE);
+        EventBlock b = new EventBlock(this,"",dow,mins,5,"",-1,this);
+        View v = b.createBlockView();
+        v.setBackgroundColor(0xffff0000);
+        blockLayout.addView(v);
+        blocks.add(v);
     }
 
     private void updateTitle(){
@@ -160,8 +178,20 @@ public class MyActivity extends Activity {
                 updateTitle();
                 buildEventBlocks();
                 break;
+            case R.id.menu_list:
+                openListDialog();
+                break;
         }
         return true;
+    }
+
+    private void openListDialog() {
+        Dialog d = new Dialog(this);
+        d.setTitle("Resumen Actividades");
+        d.setContentView(R.layout.dialog_ev_list);
+        ListView l = (ListView) d.findViewById(R.id.dialog_lista);
+        l.setAdapter(new EvArrayAdapter(this,uEvents));
+        d.show();
     }
 
     private void gotoAddFixEventActivity() {
@@ -184,4 +214,14 @@ public class MyActivity extends Activity {
         buildEventBlocks();
     }
 
+    public String prettyFecha(int day, int week) {
+        Calendar cal = Calendar.getInstance();
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+        cal.get(Calendar.DAY_OF_WEEK);
+        cal.set(Calendar.WEEK_OF_YEAR,week);
+        cal.set(Calendar.DAY_OF_WEEK,day);
+        int dd = cal.get(Calendar.DAY_OF_MONTH);
+        int mm = cal.get(Calendar.MONTH);
+        return dayNames[day]+" "+dd+"/"+mm;
+    }
 }

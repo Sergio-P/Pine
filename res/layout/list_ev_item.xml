@@ -3,4 +3,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="#e5d489"
+                  android:id="@+id/list_item_bg"
+                  android:padding="4dp"
+    >
+
+        <TextView android:id="@+id/list_item_text"
+                android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                android:lines="2"
+                  android:textColor="#000"
+                  android:text="Estudio Mecanica - Lu 03/05 (11:00 - 13:00)\nPlazo: Martes 11/05"
+        />
+
+    </LinearLayout>
+
 </RelativeLayout>

@@ -25,7 +25,7 @@ public class DynEventActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dyn_event_activity);
-        getActionBar().setHomeButtonEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
         setTitle("Nuevo Evento Dinámico");
         context = this;
 

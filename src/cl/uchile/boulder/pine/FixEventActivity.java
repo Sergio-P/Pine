@@ -23,7 +23,7 @@ public class FixEventActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fix_event_activity);
-        getActionBar().setHomeButtonEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
         setTitle("Nuevo Evento Fijo");
         context = this;
 

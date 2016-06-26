@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 public class EventBlock {
 
-    private String name;
-    private String description;
-    private Context context;
-    private int day;
-    private int minStart, duration;
+    protected String name;
+    protected String description;
+    protected Context context;
+    protected int day;
+    protected int minStart, duration;
     protected int id;
     protected MyActivity master;
     protected int bgcol;
@@ -24,6 +24,7 @@ public class EventBlock {
         context = ctx;
         name = text;
         day = d;
+        if(day>6 || day<0) day=6;
         minStart = ms;
         duration = dur;
         description = descr;
@@ -62,7 +63,7 @@ public class EventBlock {
         title.setBackgroundColor(bgcol);
         ((TextView) dialog.findViewById(R.id.dialog_descr)).setText(description);
         int minEnd = minStart + duration;
-        String prettyTime = ""+(minStart/60)+":"+((minStart%60<10)?"0":"")+(minStart%60)+" - "+(minEnd/60)+":"+((minEnd%60<10)?"0":"")+(minEnd%60);
+        String prettyTime = prettyHora(minStart)+" - "+prettyHora(minEnd);
         ((TextView) dialog.findViewById(R.id.dialog_time)).setText(prettyTime);
 
         ImageButton button = (ImageButton) dialog.findViewById(R.id.dialog_delete);
@@ -79,6 +80,10 @@ public class EventBlock {
     protected void onDialogDelete(Dialog dialog){
         master.deleteFixed(id);
         dialog.dismiss();
+    }
+
+    protected String prettyHora(int mins){
+        return ""+(mins/60)+":"+((mins%60<10)?"0":"")+(mins%60);
     }
 
 }

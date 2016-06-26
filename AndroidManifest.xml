@@ -3,7 +3,8 @@
           package="cl.uchile.boulder.pine"
           android:versionCode="1"
           android:versionName="1.0">
-    <uses-sdk android:targetSdkVersion="23"/>
+    <uses-sdk android:targetSdkVersion="23"
+            android:minSdkVersion="16"/>
     <application android:label="@string/app_name" android:icon="@mipmap/ic_main"
         >
         <activity android:name="MyActivity"
@@ -14,7 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".FixEventActivity"/>
+        <activity android:name=".FixEventActivity" android:screenOrientation="user"/>
         <activity android:name=".UniqueEventActivity"/>
         <activity android:name=".DynEventActivity"/>
     </application>

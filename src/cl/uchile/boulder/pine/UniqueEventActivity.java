@@ -28,7 +28,7 @@ public class UniqueEventActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unique_event_activity);
-        getActionBar().setHomeButtonEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
         setTitle("Nuevo Evento Único");
         context = this;
 

@@ -5,10 +5,10 @@
     <style name="AppTheme" parent="AppTheme.Base">
         <!-- Customize your theme here. -->
 
-        <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
+        <!--<item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>-->
     </style>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
 
         <!-- colorPrimary is used for the default action bar background -->
