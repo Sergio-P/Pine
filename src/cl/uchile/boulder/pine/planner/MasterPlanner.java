@@ -1,9 +1,10 @@
-package cl.uchile.boulder.pine;
+package cl.uchile.boulder.pine.planner;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import cl.uchile.boulder.pine.planner.Planner;
 
 import java.util.Calendar;
 

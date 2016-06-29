@@ -1,4 +1,4 @@
-package cl.uchile.boulder.pine;
+package cl.uchile.boulder.pine.models;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import cl.uchile.boulder.pine.R;
+import cl.uchile.boulder.pine.models.UEventBlock;
 
 import java.util.ArrayList;
 

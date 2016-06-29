@@ -1,4 +1,4 @@
-package cl.uchile.boulder.pine;
+package cl.uchile.boulder.pine.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

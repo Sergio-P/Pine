@@ -1,4 +1,4 @@
-package cl.uchile.boulder.pine;
+package cl.uchile.boulder.pine.planner;
 
 public class TimeBlock {
 

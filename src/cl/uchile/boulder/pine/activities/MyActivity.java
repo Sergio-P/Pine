@@ -1,4 +1,4 @@
-package cl.uchile.boulder.pine;
+package cl.uchile.boulder.pine.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,6 +15,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import cl.uchile.boulder.pine.*;
+import cl.uchile.boulder.pine.models.EvArrayAdapter;
+import cl.uchile.boulder.pine.models.EventBlock;
+import cl.uchile.boulder.pine.models.UEventBlock;
+import cl.uchile.boulder.pine.utils.DefaultDimensions;
+import cl.uchile.boulder.pine.utils.EventosDB;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,10 +76,10 @@ public class MyActivity extends Activity {
         Calendar calendar = Calendar.getInstance();
         int curMins = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
         if(curMins<360){
-            simpleDialogMsg("Recuerda que dormir es importante :3", R.mipmap.ic_sleeppine);
+            simpleDialogMsg("Recuerda que dormir es importante :3", R.drawable.ic_sleeppine);
         }
         if(Math.random()*40<1){
-            simpleDialogMsg("Ten un buen día!", R.mipmap.ic_main);
+            simpleDialogMsg("Ten un buen día!", R.drawable.ic_main);
         }
     }
 
@@ -83,6 +89,7 @@ public class MyActivity extends Activity {
         d.setContentView(R.layout.dialog_simplemsg);
         ((TextView) d.findViewById(R.id.dialog_text)).setText(text);
         ((ImageView) d.findViewById(R.id.dialog_icon)).setImageResource(icon);
+        d.show();
     }
 
     @Override
@@ -214,6 +221,9 @@ public class MyActivity extends Activity {
                 break;
             case R.id.menu_add_dyn:
                 startActivity(new Intent(getBaseContext(),DynEventActivity.class));
+                break;
+            case R.id.menu_prefs:
+                startActivity(new Intent(getBaseContext(),PrefActivity.class));
                 break;
             case R.id.menu_next_week:
                 curWeek++;

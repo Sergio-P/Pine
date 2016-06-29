@@ -7,7 +7,7 @@
             android:minSdkVersion="16"/>
     <application android:label="@string/app_name" android:icon="@mipmap/ic_main"
         >
-        <activity android:name="MyActivity"
+        <activity android:name=".activities.MyActivity"
                   android:screenOrientation="landscape"
                   android:label="@string/app_name">
             <intent-filter>
@@ -15,8 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".FixEventActivity" android:screenOrientation="user"/>
-        <activity android:name=".UniqueEventActivity"/>
-        <activity android:name=".DynEventActivity"/>
+        <activity android:name=".activities.FixEventActivity" android:screenOrientation="user"/>
+        <activity android:name=".activities.UniqueEventActivity"/>
+        <activity android:name=".activities.DynEventActivity"/>
     </application>
 </manifest>

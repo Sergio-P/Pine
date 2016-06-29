@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string-array name="horarios">
+        <item>M</item>
+        <item>T</item>
+        <item>N</item>
+    </string-array>
+    <string-array name="horarios_names">
+        <item>Mañana</item>
+        <item>Tarde</item>
+        <item>Noche</item>
+    </string-array>
+</resources>

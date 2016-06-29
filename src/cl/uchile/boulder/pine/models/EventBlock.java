@@ -1,4 +1,4 @@
-package cl.uchile.boulder.pine;
+package cl.uchile.boulder.pine.models;
 
 
 import android.app.Dialog;
@@ -9,6 +9,9 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import cl.uchile.boulder.pine.utils.DefaultDimensions;
+import cl.uchile.boulder.pine.R;
+import cl.uchile.boulder.pine.activities.MyActivity;
 
 public class EventBlock {
 
@@ -20,7 +23,8 @@ public class EventBlock {
     protected int id;
     protected MyActivity master;
     protected int bgcol;
-    private int[] pinesRes = {R.mipmap.ic_alertpine, R.mipmap.ic_coolpine, R.mipmap.ic_main, R.mipmap.ic_sleeppine, R.mipmap.ic_nerdpine};
+    private int[] pinesRes = {R.drawable.ic_alertpine, R.drawable.ic_coolpine, R.drawable.ic_main,
+            R.drawable.ic_sleeppine, R.drawable.ic_nerdpine};
 
     public EventBlock(Context ctx, String text, int d, int ms, int dur, String descr, int i, MyActivity mast){
         context = ctx;
@@ -77,7 +81,7 @@ public class EventBlock {
         });
 
         ImageView icon = (ImageView) dialog.findViewById(R.id.dialog_icon);
-        icon.setImageResource(pinesRes[id%pinesRes.length]);
+        icon.setImageResource(pinesRes[name.hashCode()%pinesRes.length]);
         dialog.show();
     }
 

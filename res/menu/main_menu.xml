@@ -15,17 +15,24 @@
           android:title="Semana siguiente"
     />
 
+    <item android:id="@+id/menu_prefs"
+          android:showAsAction="always"
+          android:icon="@android:drawable/ic_menu_preferences"
+          android:orderInCategory="3"
+          android:title="Preferencias"
+          />
+
     <item android:id="@+id/menu_list"
           android:showAsAction="always"
           android:icon="@drawable/ic_bars"
-          android:orderInCategory="3"
+          android:orderInCategory="4"
           android:title="Lista de Eventos"
     />
 
     <item android:id="@+id/menu_add"
           android:showAsAction="always"
           android:icon="@android:drawable/ic_input_add"
-          android:orderInCategory="4"
+          android:orderInCategory="5"
           android:title="Nuevo Evento"
     >
         <menu>

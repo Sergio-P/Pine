@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/dialog_icon" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" android:layout_below="@+id/dialog_title"
-            android:src="@mipmap/ic_coolpine" android:layout_alignBottom="@+id/dialog_descr"/>
+            android:src="@drawable/ic_coolpine" android:layout_alignBottom="@+id/dialog_descr"/>
 
 
 </RelativeLayout>

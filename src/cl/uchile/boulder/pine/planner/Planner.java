@@ -1,7 +1,8 @@
-package cl.uchile.boulder.pine;
+package cl.uchile.boulder.pine.planner;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ public class Planner {
     private ArrayList<TimeBlock> promises;
     private String evName;
     private Context context;
+    private char horario_pref;
 
     private int actualDay;
     private String evDescr;
@@ -24,6 +26,7 @@ public class Planner {
         week = w;
         actualDay = dw;
         context = ctx;
+        horario_pref = PreferenceManager.getDefaultSharedPreferences(context).getString("pref_horario","T").charAt(0);
     }
 
     public void addBlock(int mi, int mf, int dw){
@@ -99,21 +102,59 @@ public class Planner {
     private boolean scheduleByHour(float dur, int dwTo) {
         for(int d = actualDay; d<=dwTo && dur>0; d++){
             boolean completed = false;
-            int hact = 15;
-            while(!completed && hact<22){
-                if(isFreeRange(d,60*hact,60*(hact+1))) {
-                    promiseEvent(d, 60*hact, 60*(hact+1));
-                    completed = true;
+            if(horario_pref == 'T'){
+                int hact = 15;
+                while(!completed && hact<22){
+                    if(isFreeRange(d,60*hact,60*(hact+1))) {
+                        promiseEvent(d, 60*hact, 60*(hact+1));
+                        completed = true;
+                    }
+                    hact++;
                 }
-                hact++;
+                hact = 12;
+                while(!completed && hact>7){
+                    if(isFreeRange(d,60*hact,60*(hact+1))) {
+                        promiseEvent(d, 60*hact, 60*(hact+1));
+                        completed = true;
+                    }
+                    hact--;
+                }
             }
-            hact = 12;
-            while(!completed && hact>7){
-                if(isFreeRange(d,60*hact,60*(hact+1))) {
-                    promiseEvent(d, 60*hact, 60*(hact+1));
-                    completed = true;
+            else if(horario_pref == 'M'){
+                int hact = 12;
+                while(!completed && hact>7){
+                    if(isFreeRange(d,60*hact,60*(hact+1))) {
+                        promiseEvent(d, 60*hact, 60*(hact+1));
+                        completed = true;
+                    }
+                    hact--;
                 }
-                hact--;
+                hact = 15;
+                while(!completed && hact<22){
+                    if(isFreeRange(d,60*hact,60*(hact+1))) {
+                        promiseEvent(d, 60*hact, 60*(hact+1));
+                        completed = true;
+                    }
+                    hact++;
+                }
+            }
+            else{
+                int hact = 19;
+                while(!completed && hact<22){
+                    if(isFreeRange(d,60*hact,60*(hact+1))) {
+                        promiseEvent(d, 60*hact, 60*(hact+1));
+                        completed = true;
+                    }
+                    hact++;
+                }
+                hact = 19;
+                while(!completed && hact>7){
+                    if(isFreeRange(d,60*hact,60*(hact+1))) {
+                        promiseEvent(d, 60*hact, 60*(hact+1));
+                        completed = true;
+                    }
+                    hact--;
+                }
             }
             if(!completed) return false;
             dur-=1;
