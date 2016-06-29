@@ -75,21 +75,59 @@ public class Planner {
         boolean completed = false;
         for(int d = actualDay; d<=dwTo && dur>0; d++){
             completed = false;
-            int hact = 15;
-            while(!completed && hact<23.75-hpp){
-                if(isFreeRange(d,60*hact, (int) (60*(hact+hpp)))) {
-                    promiseEvent(d, 60*hact, (int) (60*(hact+hpp)));
-                    completed = true;
+            if(horario_pref == 'T') {
+                int hact = 15;
+                while (!completed && hact < 23.75 - hpp) {
+                    if (isFreeRange(d, 60 * hact, (int) (60 * (hact + hpp)))) {
+                        promiseEvent(d, 60 * hact, (int) (60 * (hact + hpp)));
+                        completed = true;
+                    }
+                    hact++;
                 }
-                hact++;
+                hact = 12;
+                while (!completed && hact > 6) {
+                    if (isFreeRange(d, 60 * hact, (int) (60 * (hact + hpp)))) {
+                        promiseEvent(d, 60 * hact, (int) (60 * (hact + hpp)));
+                        completed = true;
+                    }
+                    hact--;
+                }
             }
-            hact = 12;
-            while(!completed && hact>6){
-                if(isFreeRange(d,60*hact, (int) (60*(hact+hpp)))) {
-                    promiseEvent(d, 60*hact, (int) (60*(hact+hpp)));
-                    completed = true;
+            else if(horario_pref == 'M'){
+                int hact = 12;
+                while (!completed && hact > 6) {
+                    if (isFreeRange(d, 60 * hact, (int) (60 * (hact + hpp)))) {
+                        promiseEvent(d, 60 * hact, (int) (60 * (hact + hpp)));
+                        completed = true;
+                    }
+                    hact--;
                 }
-                hact--;
+                hact = 15;
+                while (!completed && hact < 23.75 - hpp) {
+                    if (isFreeRange(d, 60 * hact, (int) (60 * (hact + hpp)))) {
+                        promiseEvent(d, 60 * hact, (int) (60 * (hact + hpp)));
+                        completed = true;
+                    }
+                    hact++;
+                }
+            }
+            else{
+                int hact = 20;
+                while (!completed && hact < 23.75 - hpp) {
+                    if (isFreeRange(d, 60 * hact, (int) (60 * (hact + hpp)))) {
+                        promiseEvent(d, 60 * hact, (int) (60 * (hact + hpp)));
+                        completed = true;
+                    }
+                    hact++;
+                }
+                hact = 20;
+                while (!completed && hact > 6) {
+                    if (isFreeRange(d, 60 * hact, (int) (60 * (hact + hpp)))) {
+                        promiseEvent(d, 60 * hact, (int) (60 * (hact + hpp)));
+                        completed = true;
+                    }
+                    hact--;
+                }
             }
             if(!completed && dwTo != d){
                 hpp += hpp/(dwTo-d);
@@ -139,7 +177,7 @@ public class Planner {
                 }
             }
             else{
-                int hact = 19;
+                int hact = 20;
                 while(!completed && hact<22){
                     if(isFreeRange(d,60*hact,60*(hact+1))) {
                         promiseEvent(d, 60*hact, 60*(hact+1));
@@ -147,7 +185,7 @@ public class Planner {
                     }
                     hact++;
                 }
-                hact = 19;
+                hact = 20;
                 while(!completed && hact>7){
                     if(isFreeRange(d,60*hact,60*(hact+1))) {
                         promiseEvent(d, 60*hact, 60*(hact+1));
