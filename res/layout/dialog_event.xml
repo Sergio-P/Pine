@@ -31,7 +31,7 @@
             android:layout_below="@+id/dialog_time"
             android:layout_alignLeft="@+id/dialog_time"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/imageView" android:layout_toStartOf="@+id/imageView"/>
+            android:layout_toLeftOf="@+id/dialog_icon" android:layout_toStartOf="@+id/dialog_icon"/>
     <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,9 +55,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true" android:layout_alignParentRight="true"/>
     <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="86dp"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView" android:layout_alignParentRight="true"
+            android:id="@+id/dialog_icon" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" android:layout_below="@+id/dialog_title"
             android:src="@mipmap/ic_coolpine" android:layout_alignBottom="@+id/dialog_descr"/>
 

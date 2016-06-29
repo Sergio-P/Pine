@@ -80,6 +80,14 @@ public class Planner {
                 }
                 hact++;
             }
+            hact = 12;
+            while(!completed && hact>6){
+                if(isFreeRange(d,60*hact, (int) (60*(hact+hpp)))) {
+                    promiseEvent(d, 60*hact, (int) (60*(hact+hpp)));
+                    completed = true;
+                }
+                hact--;
+            }
             if(!completed && dwTo != d){
                 hpp += hpp/(dwTo-d);
             }
@@ -98,6 +106,14 @@ public class Planner {
                     completed = true;
                 }
                 hact++;
+            }
+            hact = 12;
+            while(!completed && hact>7){
+                if(isFreeRange(d,60*hact,60*(hact+1))) {
+                    promiseEvent(d, 60*hact, 60*(hact+1));
+                    completed = true;
+                }
+                hact--;
             }
             if(!completed) return false;
             dur-=1;

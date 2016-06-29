@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class EventBlock {
@@ -19,6 +20,7 @@ public class EventBlock {
     protected int id;
     protected MyActivity master;
     protected int bgcol;
+    private int[] pinesRes = {R.mipmap.ic_alertpine, R.mipmap.ic_coolpine, R.mipmap.ic_main, R.mipmap.ic_sleeppine, R.mipmap.ic_nerdpine};
 
     public EventBlock(Context ctx, String text, int d, int ms, int dur, String descr, int i, MyActivity mast){
         context = ctx;
@@ -74,6 +76,8 @@ public class EventBlock {
             }
         });
 
+        ImageView icon = (ImageView) dialog.findViewById(R.id.dialog_icon);
+        icon.setImageResource(pinesRes[id%pinesRes.length]);
         dialog.show();
     }
 

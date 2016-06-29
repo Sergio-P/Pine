@@ -10,8 +10,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +25,9 @@ public class MyActivity extends Activity {
     private boolean built;
     private EventosDB eventosDB;
     private ArrayList<View> blocks;
-    private int curYear, curWeek;
+    private int curYear;
+    private int curWeek;
+    private int curDow;
     private String[] dayNames = {"Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"};
     private ArrayList<UEventBlock> uEvents;
 
@@ -50,8 +55,34 @@ public class MyActivity extends Activity {
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         curYear = calendar.get(Calendar.YEAR);
+        curDow = calendar.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
         curWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        if(curDow>=6 || curDow<0){
+            curDow=6;
+            curWeek -=1;
+        }
         updateTitle();
+        sendGreatMessage();
+    }
+
+    private void sendGreatMessage() {
+        //Dormir msg
+        Calendar calendar = Calendar.getInstance();
+        int curMins = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
+        if(curMins<360){
+            simpleDialogMsg("Recuerda que dormir es importante :3", R.mipmap.ic_sleeppine);
+        }
+        if(Math.random()*40<1){
+            simpleDialogMsg("Ten un buen día!", R.mipmap.ic_main);
+        }
+    }
+
+    private void simpleDialogMsg(String text, int icon) {
+        Dialog d = new Dialog(this);
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        d.setContentView(R.layout.dialog_simplemsg);
+        ((TextView) d.findViewById(R.id.dialog_text)).setText(text);
+        ((ImageView) d.findViewById(R.id.dialog_icon)).setImageResource(icon);
     }
 
     @Override
@@ -117,10 +148,9 @@ public class MyActivity extends Activity {
     private void buildCurrentTimeBlock() {
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        int dow = calendar.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
-        if(dow<0) dow=6;
-        int mins = calendar.get(Calendar.HOUR_OF_DAY)*60+calendar.get(Calendar.MINUTE);
-        EventBlock b = new EventBlock(this,"",dow,mins,5,"",-1,this);
+        if(curDow<0) curDow=6;
+        int curMins = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
+        EventBlock b = new EventBlock(this,"",curDow, curMins,5,"",-1,this);
         View v = b.createBlockView();
         v.setBackgroundColor(0xffff0000);
         blockLayout.addView(v);
@@ -138,16 +168,33 @@ public class MyActivity extends Activity {
         Log.d("APP",""+curWeek);
         c.set(Calendar.WEEK_OF_YEAR,curWeek);
         c.get(Calendar.DAY_OF_WEEK);
-        c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
-        String ini = ""+c.get(Calendar.DAY_OF_MONTH)+"/"+(c.get(Calendar.MONTH)+1);
+        ArrayList<String> labels = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY+i);
+            int mf = c.get(Calendar.MONTH) + 1;
+            if(mf==1 && curWeek>30){
+                curYear++;
+                curWeek = 0;
+            }
+            String k = dayNames[i]+" "+c.get(Calendar.DAY_OF_MONTH)+"/"+mf;
+            labels.add(k);
+        }
         c.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
         int mf = c.get(Calendar.MONTH) + 1;
         if(mf==1 && curWeek>30){
             curYear++;
             curWeek = 0;
         }
-        String fin = ""+c.get(Calendar.DAY_OF_MONTH)+"/"+mf;
+        String k = dayNames[6]+" "+c.get(Calendar.DAY_OF_MONTH)+"/"+mf;
+        labels.add(k);
+        String ini = labels.get(0);
+        String fin = labels.get(6);
         setTitle(ini + " - "+ fin);
+        //Labels
+        for (int i = 0; i <= 6; i++) {
+            int id = getResources().getIdentifier("dt"+i,"id",getBaseContext().getPackageName());
+            ((TextView) findViewById(id)).setText(labels.get(i));
+        }
     }
 
     @Override
@@ -187,7 +234,7 @@ public class MyActivity extends Activity {
 
     private void openListDialog() {
         Dialog d = new Dialog(this);
-        d.setTitle("Resumen Actividades");
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(R.layout.dialog_ev_list);
         ListView l = (ListView) d.findViewById(R.id.dialog_lista);
         l.setAdapter(new EvArrayAdapter(this,uEvents));

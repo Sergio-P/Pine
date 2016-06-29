@@ -1,25 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="fill_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_height="wrap_content"
-        >
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:id="@+id/main_layout"
+              android:background="#eee"
+              android:orientation="vertical"
 >
 
-        <TextView android:layout_width="20dp"
+    <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:lineSpacingExtra="18sp"
-                  android:gravity="right"
-                  android:textColor="#000000"
-                  android:id="@+id/hours_label"
-                  android:text="6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23"
-        />
+                  android:orientation="horizontal"
+                  android:background="#eee"
+                  android:layout_marginLeft="30dp"
+                  android:weightSum="7">
+        <TextView android:layout_width="0dp" android:textColor="#000"  android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/dt0"/>
+        <TextView android:layout_width="0dp" android:textColor="#000"  android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/dt1"/>
+        <TextView android:layout_width="0dp" android:textColor="#000"  android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/dt2"/>
+        <TextView android:layout_width="0dp" android:textColor="#000"  android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/dt3"/>
+        <TextView android:layout_width="0dp" android:textColor="#000"  android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/dt4"/>
+        <TextView android:layout_width="0dp" android:textColor="#000"  android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/dt5"/>
+        <TextView android:layout_width="0dp" android:textColor="#000"  android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/dt6"/>
+    </LinearLayout>
 
-</RelativeLayout>
+    <ScrollView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+    >
 
-</ScrollView>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:id="@+id/main_layout"
+        >
+
+            <TextView android:layout_width="20dp"
+                      android:layout_height="wrap_content"
+                      android:lineSpacingExtra="18sp"
+                      android:gravity="right"
+                      android:textColor="#000000"
+                      android:id="@+id/hours_label"
+                      android:text="6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23"
+            />
+
+        </RelativeLayout>
+
+    </ScrollView>
+</LinearLayout>
