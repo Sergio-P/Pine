@@ -3,7 +3,6 @@ package cl.uchile.boulder.pine.models;
 import android.app.Dialog;
 import android.content.Context;
 import cl.uchile.boulder.pine.activities.MyActivity;
-import cl.uchile.boulder.pine.models.EventBlock;
 
 
 public class UEventBlock extends EventBlock {
@@ -25,6 +24,8 @@ public class UEventBlock extends EventBlock {
     protected void onDialogDelete(Dialog dialog) {
         if(!autoGen)
             master.deleteUnique(id);
+        else
+            master.deleteDynamic(name);
         dialog.dismiss();
     }
 

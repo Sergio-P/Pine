@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,10 +14,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import cl.uchile.boulder.pine.*;
+import cl.uchile.boulder.pine.R;
 import cl.uchile.boulder.pine.models.EvArrayAdapter;
 import cl.uchile.boulder.pine.models.EventBlock;
 import cl.uchile.boulder.pine.models.UEventBlock;
+import cl.uchile.boulder.pine.planner.TimeFreeCounter;
 import cl.uchile.boulder.pine.utils.DefaultDimensions;
 import cl.uchile.boulder.pine.utils.EventosDB;
 
@@ -36,6 +36,7 @@ public class MyActivity extends Activity {
     private int curDow;
     private String[] dayNames = {"Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"};
     private ArrayList<UEventBlock> uEvents;
+    private TimeFreeCounter timeFreeCounter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class MyActivity extends Activity {
         blockLayout = (RelativeLayout) findViewById(R.id.main_layout);
         blocks = new ArrayList<>();
         built = false;
+        timeFreeCounter = new TimeFreeCounter();
         blockLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -76,7 +78,7 @@ public class MyActivity extends Activity {
         Calendar calendar = Calendar.getInstance();
         int curMins = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
         if(curMins<360){
-            simpleDialogMsg("Recuerda que dormir es importante :3", R.drawable.ic_sleeppine);
+            simpleDialogMsg("Recuerda que dormir es importante", R.drawable.ic_sleeppine);
         }
         if(Math.random()*40<1){
             simpleDialogMsg("Ten un buen día!", R.drawable.ic_main);
@@ -102,6 +104,7 @@ public class MyActivity extends Activity {
 
         for(View v : blocks)
             blockLayout.removeView(v);
+        timeFreeCounter.reset();
 
         SQLiteDatabase db = eventosDB.getReadableDatabase();
 
@@ -119,6 +122,7 @@ public class MyActivity extends Activity {
                 View v = block.createBlockView();
                 blockLayout.addView(v);
                 blocks.add(v);
+                timeFreeCounter.addBlock(day,dur);
             }
             while(cursor.moveToNext());
         }
@@ -142,6 +146,7 @@ public class MyActivity extends Activity {
                     View v = block.createBlockView();
                     blockLayout.addView(v);
                     blocks.add(v);
+                    timeFreeCounter.addBlock(day,dur);
                 }
                 uEvents.add(block);
             }
@@ -150,6 +155,14 @@ public class MyActivity extends Activity {
         cursor.close();
 
         buildCurrentTimeBlock();
+        checkOvercharge();
+    }
+
+    private void checkOvercharge() {
+        if(timeFreeCounter.hasOvercharge() && !getTitle().toString().contains("   ")){
+            setTitle(getTitle()+"   ⚠️");
+            simpleDialogMsg("No te sobrecargues con actividades! Organiza bien tus prioridades",R.drawable.ic_alertpine);
+        }
     }
 
     private void buildCurrentTimeBlock() {
@@ -172,7 +185,6 @@ public class MyActivity extends Activity {
         Calendar c = Calendar.getInstance();
         c.setFirstDayOfWeek(Calendar.MONDAY);
         c.set(Calendar.YEAR,curYear);
-        Log.d("APP",""+curWeek);
         c.set(Calendar.WEEK_OF_YEAR,curWeek);
         c.get(Calendar.DAY_OF_WEEK);
         ArrayList<String> labels = new ArrayList<>();
@@ -280,5 +292,12 @@ public class MyActivity extends Activity {
         int dd = cal.get(Calendar.DAY_OF_MONTH);
         int mm = cal.get(Calendar.MONTH);
         return dayNames[day]+" "+dd+"/"+mm;
+    }
+
+    public void deleteDynamic(String name) {
+        SQLiteDatabase db = eventosDB.getWritableDatabase();
+        Object[] args = {name};
+        db.execSQL("delete from unique_event where autogen = 1 and nom = ?", args);
+        buildEventBlocks();
     }
 }

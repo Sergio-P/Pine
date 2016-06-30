@@ -18,5 +18,6 @@
         <activity android:name=".activities.FixEventActivity" android:screenOrientation="user"/>
         <activity android:name=".activities.UniqueEventActivity"/>
         <activity android:name=".activities.DynEventActivity"/>
+        <activity android:name=".activities.PrefActivity"/>
     </application>
 </manifest>

@@ -81,7 +81,7 @@ public class EventBlock {
         });
 
         ImageView icon = (ImageView) dialog.findViewById(R.id.dialog_icon);
-        icon.setImageResource(pinesRes[name.hashCode()%pinesRes.length]);
+        icon.setImageResource(pinesRes[(name.hashCode()*((name.hashCode()<0)?-1:1))%pinesRes.length]);
         dialog.show();
     }
 

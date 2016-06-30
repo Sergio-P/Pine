@@ -4,9 +4,9 @@
     <ListPreference
         android:key="pref_horario"
         android:title="Horario de estudio preferido"
-        android:dialogTitle="Pais"
-        android:entries="@array/horarios"
-        android:entryValues="@array/horarios_names"
+        android:dialogTitle="Horario"
+        android:entries="@array/horarios_names"
+        android:entryValues="@array/horarios"
         android:defaultValue="T"
     >
     </ListPreference>
